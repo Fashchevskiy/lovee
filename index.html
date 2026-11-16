@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffe3ee">
+  <title>Для тебе ❤️</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Спільний символ сердечка для всієї гри -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="heart" viewBox="0 0 32 29.6">
+      <path fill="currentColor" d="M23.6 0c-3.4 0-6.3 2.7-7.6 5.6C14.7 2.7 11.8 0 8.4 0 3.8 0 0 3.8 0 8.4c0 9.4 9.5 11.9 16 21.2 6.1-9.3 16-12.1 16-21.2C32 3.8 28.2 0 23.6 0z"/>
+    </symbol>
+  </svg>
+
+  <div class="bg-hearts" id="bgHearts" aria-hidden="true"></div>
+
+  <main id="app">
+
+    <!-- Верхня панель: прогрес + перезапуск -->
+    <header class="topbar">
+      <div class="progress-wrap">
+        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress">
+          <i id="bar"></i>
+        </div>
+        <span class="step-label" id="stepLabel">Етап 1 з 5</span>
+      </div>
+      <button class="icon-btn" id="restartTop" type="button" aria-label="Почати спочатку">↻</button>
+    </header>
+
+    <!-- ЕТАП 1 — Привітання -->
+    <section class="screen active" id="s0" aria-label="Привітання">
+      <div class="inner">
+        <div class="cat-stage reveal" style="--d:.05s">
+          <span class="float-heart fh1"><svg><use href="#heart"/></svg></span>
+          <span class="float-heart fh2"><svg><use href="#heart"/></svg></span>
+          <span class="float-heart fh3"><svg><use href="#heart"/></svg></span>
+          <div class="cat-wrap cat-big" data-cat="plain"></div>
+        </div>
+        <div class="glass card reveal" style="--d:.2s">
+          <h1 class="title">Гей, красуне! ❤️</h1>
+          <p class="lead">У тебе є одна хвилинка? Я дещо для тебе підготував...</p>
+        </div>
+        <button class="btn reveal" style="--d:.35s" id="startBtn" type="button">Звісно! 🥰</button>
+      </div>
+    </section>
+
+    <!-- ЕТАП 2 — Лови сердечка -->
+    <section class="screen" id="s1" aria-label="Лови сердечка">
+      <div class="hud glass reveal">
+        <div class="hud-title">Лови сердечка! 💗</div>
+        <div class="dots" id="dots" aria-live="polite"></div>
+        <div class="hud-sub" id="scoreText">0 з 5</div>
+      </div>
+      <div class="catch-area" id="catchArea"></div>
+    </section>
+
+    <!-- ЕТАП 3 — Комплімент -->
+    <section class="screen" id="s2" aria-label="Комплімент">
+      <div class="inner">
+        <div class="cat-wrap cat-mid reveal" style="--d:.05s" data-cat="plain"></div>
+        <div class="glass card compliment-card reveal" style="--d:.15s">
+          <div class="quote-mark" aria-hidden="true">“</div>
+          <p class="compliment" id="complimentText" aria-live="polite"></p>
+        </div>
+        <div class="row reveal" style="--d:.3s">
+          <button class="btn ghost" id="moreBtn" type="button">Ще один 💌</button>
+          <button class="btn" id="toSurprise" type="button">Далі ✨</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ЕТАП 4 — Сюрприз -->
+    <section class="screen" id="s3" aria-label="Сюрприз">
+      <div class="inner">
+        <div class="cat-wrap cat-mid reveal" style="--d:.05s" data-cat="plain"></div>
+        <div class="glass card msg-card reveal" style="--d:.15s">
+          <p class="msg" id="surpriseMsg" aria-live="polite">Тут заховане дещо важливе...</p>
+        </div>
+
+        <button class="gift reveal" style="--d:.25s" id="giftBtn" type="button" aria-label="Відкрити подарунок">
+          <svg viewBox="0 0 160 160" aria-hidden="true">
+            <circle class="gift-glow" cx="80" cy="84" r="46" fill="#fff7c2"/>
+            <rect x="26" y="76" width="108" height="70" rx="12" fill="#ffb6d0"/>
+            <rect x="72" y="76" width="16" height="70" fill="#fff3a8"/>
+            <rect x="26" y="76" width="108" height="10" fill="#ff93b9" opacity=".55"/>
+            <g class="lid">
+              <rect x="18" y="56" width="124" height="28" rx="10" fill="#ff8fb8"/>
+              <rect x="72" y="56" width="16" height="28" fill="#fff3a8"/>
+              <path d="M80 56 C56 20 30 36 52 54 Z" fill="#c9b6ff"/>
+              <path d="M80 56 C104 20 130 36 108 54 Z" fill="#c9b6ff"/>
+              <circle cx="80" cy="56" r="9" fill="#a78bfa"/>
+            </g>
+          </svg>
+          <span class="tap-hint" id="tapHint">Торкнись 👆</span>
+        </button>
+
+        <button class="btn hidden" id="toFinale" type="button">Що там далі? 💌</button>
+      </div>
+    </section>
+
+    <!-- ЕТАП 5 — Фінал -->
+    <section class="screen" id="s4" aria-label="Фінал">
+      <div class="inner">
+        <h2 class="title big reveal" style="--d:.05s">Місію виконано! ❤️</h2>
+
+        <div class="glass card delivery reveal" style="--d:.2s">
+          <p class="lead small">Тобі щойно доставлено:</p>
+          <ul class="gifts">
+            <li><span class="emo">🫂</span><b class="count" data-to="1000">0</b>&nbsp;обіймів</li>
+            <li><span class="emo">😘</span><b class="count" data-to="10000">0</b>&nbsp;поцілунків</li>
+            <li><span class="emo">♾️</span>нескінченну кількість любові</li>
+          </ul>
+        </div>
+
+        <p class="love reveal" style="--d:.45s">І ще одне... Я тебе дуже люблю! ❤️</p>
+
+        <figure class="photo-frame reveal" style="--d:.6s" id="photoFrame">
+          <img id="photo" src="photo.jpg" alt="Наше фото" loading="eager" decoding="async">
+          <div class="ph" aria-hidden="true">
+            <svg class="ph-heart"><use href="#heart"/></svg>
+            <span>Тут буде наше фото 📸</span>
+          </div>
+        </figure>
+
+        <div class="row reveal" style="--d:.75s">
+          <button class="btn" id="hugBtn" type="button">Обійняти у відповідь 🫂</button>
+          <button class="btn ghost" id="restartBtn" type="button">Ще раз ↻</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Оверлей обіймів -->
+    <div class="hug-overlay" id="hugOverlay" aria-hidden="true">
+      <div class="hug-box glass">
+        <div class="cat-wrap cat-big" id="hugCat"></div>
+        <p class="hug-text" id="hugText">Котик міцно-міцно тебе обіймає 🫂</p>
+        <button class="btn" id="hugClose" type="button">Дякую ❤️</button>
+      </div>
+    </div>
+
+  </main>
+
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
